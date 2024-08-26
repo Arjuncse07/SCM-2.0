@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('/images/loginBackground.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .signup-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        input[type="text"], input[type="email"], input[type="password"],input[type="phoneNumber"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .signup-footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .signup-footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .signup-footer a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* Basic styling for the label */
+label {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #333;
+    margin-right: 10px;
+}
+
+/* Styling the select dropdown */
+select {
+    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #333;
+    font-family: Arial, sans-serif;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Dropdown arrow customization (only works on certain browsers) */
+select::-ms-expand {
+    display: none;
+}
+
+select:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    outline: none;
+}
+
+
+
+
+    </style>
+</head>
+<body>
+<div class="signup-container">
+
+    <div>
+     <p th:text="${message}" style="color: red;"></p>
+    </div>
+
+
+    <h2>Sign Up</h2>
+    <form th:action="@{/do-register}" method="POST">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="gender">Gender:</label><br>
+        <select name="gender"  id="gender">
+            <option value="">Select</option>
+           <option value="M">Male</option>
+            <option value="F">Female</option>
+            <option value="TG">TransGender</option>
+        </select><br><br>
+
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="phoneNumber" id="phoneNumber" name="phoneNumber" required>
+
+        <!--
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+      -->
+
+
+        <button type="submit">Sign Up</button>
+    </form>
+    <div class="signup-footer">
+        <p>Already have an account? <a th:href="@{/login}">Login here</a></p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" 
+
+th:fragment="parent(content,title)" 
+xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-th-replace="${title}">SCM Base Page Title</title>
+  <link rel="stylesheet" data-th-href="@{'/css/output.css'}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+
+</head>
+<body>
+
+  <!-- BASE PAGE CONTECT -->
+  <!-- <h1>This is base page content </h1><br> -->
+  <div data-th-replace="navbar :: navbar">
+
+  </div>
+ 
+
+
+  <!-- MAIN CONTENT  which is page specific -->
+  <section data-th-replace="${content}"></section>
+ 
+  <!-- Main Link which are page specifics -->
+  <!--  <a data-th-href="${link}">Link To Home Page</a> -->
+  <!--  <section data-th-replace="$(link)"></section> -->
+
+
+
+
+ <!-- Common Footer-->
+
+ <!--  
+  <footer class="p-4">
+     Footer : This Footer is managed by the Developer Name Arjun
+  </footer>
+-->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+</body>
+</html>

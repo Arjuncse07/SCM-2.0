@@ -1,0 +1,14 @@
+.page-link {
+    color: blue; /* Change this to your preferred text color */
+    text-decoration: none; /* Remove underline from links */
+    cursor: pointer; /* Show pointer cursor on hover */
+    padding: 0.5rem 1rem; /* Adjust padding as needed */
+    border: 1px solid blue; /* Add border to links */
+    border-radius: 0.25rem; /* Add border radius for rounded corners */
+    margin: 0 0.5rem; /* Adjust margin as needed */
+}
+
+.page-link:hover {
+    background-color: blue; /* Change this to your preferred hover background color */
+    color: white; /* Change this to your preferred text color on hover */
+}
