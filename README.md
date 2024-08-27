@@ -4,11 +4,6 @@ Technologies Used : Java,Tailwind CSS,Thymleaf,JPA
 For Page Content : Flowbite Url: https://flowbite.com/
 
 
-# TWILLIO RECORVERY 
-Y2UY71Q4UFMWRTJ73PHJXM45
-
-
-
 
 # FEATURES ARE USED AS FOLLOWS
 1. LOGIN PAGE WITH COUNTRY CODE + LOGIN WITH MOBILE OTP + EMAIL OTP
