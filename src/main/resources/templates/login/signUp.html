@@ -28,7 +28,7 @@
             margin-bottom: 20px;
             font-size: 24px;
         }
-        input[type="text"], input[type="email"], input[type="password"],input[type="phoneNumber"] {
+        input[type="text"], input[type="email"], input[type="password"],input[type="phoneNumber"], input[type="cnfPassword"] {
             width: 100%;
             padding: 10px;
             margin: 8px 0;
@@ -95,13 +95,77 @@ select:focus {
     box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
     outline: none;
 }
-
-
-
-
     </style>
+
+
 </head>
 <body>
+
+<script>
+
+    // Function to validate password strength
+ function validatePasswordStrength() {
+
+     const password = document.getElementById('password').value;
+     const pwdStrength = document.getElementById('passwordStrength');
+
+     if (password.length != 0 && password.length < 6) {
+         pwdStrength.textContent = 'Week Password';
+         pwdStrength.style.color = 'red';
+
+     } else if (password.match(/[0-9]/) && password.match(/[a-zA-Z]/)) {
+         pwdStrength.textContent = 'Medium Strength Password';
+         pwdStrength.style.color = 'orange';
+     } else if (password.match(/[0-9]/) && password.match(/[a-zA-Z]/) && password.match(/[@#$%^&*+=]/)) {
+         pwdStrength.textContent = 'Strong Password';
+         pwdStrength.style.color = 'green';
+     } else {
+         pwdStrength.textContent = '';
+     }
+ }
+
+
+
+ function validatePasswordMatch() {
+
+     const password = document.getElementById('password').value;
+     const confirmPassword = document.getElementById('cnfPassword').value;
+     const matchPwd = document.getElementById('passwordMatch');
+
+     if (confirmPassword.length != 0 && confirmPassword != null) {
+
+         if (password == confirmPassword) {
+             matchPwd.textContent = 'Password Match';
+             matchPwd.style.color = 'green';
+         } else {
+             matchPwd.textContent = 'Password do not match';
+             matchPwd.style.color = 'red';
+         }
+     }
+ }
+
+
+
+ document.addEventListener('DOMContentLoaded', function() {
+     const passwordField = document.getElementById('password');
+     passwordField.addEventListener('input', validatePasswordStrength);
+
+     passwordField.addEventListener('blur', function() {
+         validatePasswordMatch();
+         validatePasswordStrength();
+     });
+
+
+     document.getElementById('cnfPassword').addEventListener('blur', validatePasswordMatch);
+ });
+
+</script>
+
+
+
+
+
+
 <div class="signup-container">
 
     <div>
@@ -119,6 +183,11 @@ select:focus {
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
+        <span id="passwordStrength"></span> <!-- PlaceHolder for password strength feedback -->
+
+        <label for="cnfPassword">Confirm Password:</label>
+        <input type="password" id="cnfPassword" name="cnfPassword" required>
+        <span id="passwordMatch"></span> <!-- PlaceHolder for password match feedback -->
 
         <label for="gender">Gender:</label><br>
         <select name="gender"  id="gender">
