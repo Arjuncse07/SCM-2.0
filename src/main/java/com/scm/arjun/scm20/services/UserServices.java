@@ -14,9 +14,15 @@ public interface UserServices {
     Optional<User> getUserByUserId(String id);
     Optional<User> updateUser(User user);
     void deleteUser(String id);
-    boolean isUserExistByEmail(String emailId);
+    Optional<User> isUserExistByEmail(String emailId);
     boolean isUserExistByUserId(String userId);
     List<User> getAllUser();
+
+    void createPwdResetToken(User user, String token);
+
+    void updatePassword(User user, String newPassword);
+
+    Optional<User> findByPasswordResetToken(String token);
 
 
 

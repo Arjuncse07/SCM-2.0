@@ -3,9 +3,11 @@ package com.scm.arjun.scm20.controller;
 import com.scm.arjun.scm20.entities.User;
 import com.scm.arjun.scm20.services.UserServices;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +31,13 @@ public class PageController {
     {
         return "login";
     }
+
+    @RequestMapping("/forgetPassword")
+    public String forgetPage(Model model){
+
+        return "forgetPwdPage";
+    }
+
 
     @RequestMapping("/home")
     public String home(Model model){
@@ -60,22 +69,27 @@ public class PageController {
     }
 
 
-
-
     @GetMapping("/register")
-    public String register(Model model){
-       try{
-       System.out.println("Register Controller");
-       }catch(Exception e){
-        e.printStackTrace();
-       }
-        
+    public String register(Model model) {
+        try {
+            System.out.println("Register Controller");
+            // Binding an empty Form Object
+            model.addAttribute("userForm", new SignUpForm());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return "login/signUp";
     }
 
     //  -------------------------------------------- REGISTER PAGE --------------------------------------------------------------------------------
     @PostMapping("/do-register")
-    public String registerProcess(@ModelAttribute SignUpForm userForm, RedirectAttributes redirectAttributes) {
+    public String registerProcess(@Valid @ModelAttribute("userForm") SignUpForm userForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if(bindingResult.hasErrors()){
+            return "login/signUp";
+        }
 
         User user = User.builder()
                 .name(userForm.getName())

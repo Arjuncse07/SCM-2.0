@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.scm.arjun.scm20.entities.PasswordResetToken;
+import com.scm.arjun.scm20.repositories.PasswordResetTokenRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class UserServiceImp implements UserServices {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private PasswordResetTokenRepository passwordResetTokenRepository;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -63,10 +68,9 @@ public class UserServiceImp implements UserServices {
     }
 
     @Override
-    public boolean isUserExistByEmail(String emailId) {
+    public Optional<User> isUserExistByEmail(String emailId) {
+       return userRepo.findByEmail(emailId);
 
-       User user =  userRepo.findByEmail(emailId).orElse(null);
-       return user!=null ? true : false;
     }
 
     @Override
@@ -80,5 +84,22 @@ public class UserServiceImp implements UserServices {
     public List<User> getAllUser() {
         return  userRepo.findAll();
     }
+
+    @Override
+    public void createPwdResetToken(User user, String token){
+        PasswordResetToken passwordResetToken = new PasswordResetToken(token, user);
+        passwordResetTokenRepository.save(passwordResetToken);
+    }
+    @Override
+    public void updatePassword(User user, String newPassword ){
+        user.setPassword(newPassword);
+        userRepo.save(user);
+    }
+
+    @Override
+    public Optional<User> findByPasswordResetToken(String token){
+        return passwordResetTokenRepository.findByToken(token).map(PasswordResetToken::getUser);
+    }
+
 
 }
