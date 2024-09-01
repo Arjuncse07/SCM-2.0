@@ -1,6 +1,9 @@
 package com.scm.arjun.scm20.controller;
 
 import com.scm.arjun.scm20.entities.User;
+import com.scm.arjun.scm20.exceptions.DuplicateUserException;
+import com.scm.arjun.scm20.forms.LoginForm;
+import com.scm.arjun.scm20.repositories.UserRepo;
 import com.scm.arjun.scm20.services.UserServices;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.scm.arjun.scm20.forms.SignUpForm;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.model.IModel;
 
 import javax.swing.text.html.Option;
 import java.security.PublicKey;
@@ -26,11 +30,28 @@ public class PageController {
     @Autowired
     private UserServices userServices;
 
+
     @GetMapping("/login")
     public String login()
     {
         return "login";
     }
+
+    @PostMapping("/do-login")
+    public String havingLogin(@Valid @ModelAttribute LoginForm loginForm, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+
+        if(bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("message","Login Error");
+            return "redirect:/login";
+        }
+
+
+
+
+
+        return "redirect:/home";
+    }
+
 
     @RequestMapping("/forgetPassword")
     public String forgetPage(Model model){
@@ -87,25 +108,32 @@ public class PageController {
     @PostMapping("/do-register")
     public String registerProcess(@Valid @ModelAttribute("userForm") SignUpForm userForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        if(bindingResult.hasErrors()){
-            return "login/signUp";
+        if (bindingResult.hasErrors()) {
+            return "redirect:/register";
         }
 
-        User user = User.builder()
-                .name(userForm.getName())
-                .password(userForm.getPassword())
-                .email(userForm.getEmail())
-                .gender(userForm.getGender())
-                .phoneNumber(userForm.getPhoneNumber())
-                .about(userForm.getAbout())
-                .build();
+        try {
+            User user = User.builder()
+                    .name(userForm.getName())
+                    .password(userForm.getPassword())
+                    .email(userForm.getEmail())
+                    .gender(userForm.getGender())
+                    .phoneNumber(userForm.getPhoneNumber())
+                    .about(userForm.getAbout())
+                    .build();
 
-        Optional<User> savedUserOptional = Optional.ofNullable(userServices.saveUser(user));
-        if (savedUserOptional.isPresent()) {
-            User savedUser = savedUserOptional.get();
-            redirectAttributes.addFlashAttribute("message", "User Register Successfully !! User_ID : " + savedUser.getUserId() + " Name : " + savedUser.getName());
-        } else {
-            redirectAttributes.addFlashAttribute("message", "User unable to register... Try Again");
+            Optional<User> savedUserOptional = Optional.ofNullable(userServices.saveUser(user));
+            if (savedUserOptional.isPresent()) {
+                User savedUser = savedUserOptional.get();
+                redirectAttributes.addFlashAttribute("message", "User Register Successfully !! User_ID : " + savedUser.getUserId() + " Name : " + savedUser.getName());
+            } else {
+                redirectAttributes.addFlashAttribute("message", "User unable to register... Try Again");
+            }
+            return "redirect:/register";
+        } catch (DuplicateUserException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Exception:: " + e);
         }
         return "redirect:/register";
     }

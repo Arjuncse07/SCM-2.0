@@ -24,6 +24,9 @@ public interface UserServices {
 
     Optional<User> findByPasswordResetToken(String token);
 
+    Optional<User> findByUsername(String userName);
+
+    boolean areEmailsAndPhoneNumbersUnique(List<String> emails, List<String> phoneNumbers);
 
 
 
