@@ -12,6 +12,8 @@ public interface UserServices {
 
     User saveUser(User user);
     Optional<User> getUserByUserId(String id);
+
+    Optional<User> getUserByEmail(String email);
     Optional<User> updateUser(User user);
     void deleteUser(String id);
     Optional<User> isUserExistByEmail(String emailId);

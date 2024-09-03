@@ -47,6 +47,11 @@ public class UserServiceImp implements UserServices {
     }
 
     @Override
+    public Optional<User> getUserByEmail(String email){
+        return userRepo.findByEmail(email);
+    }
+
+    @Override
     public Optional<User> updateUser(User user) {
 
         User optionalUser = userRepo.findById(user.getUserId()).orElseThrow(ResourceNotFoundException::new);

@@ -2,7 +2,11 @@ Project: Smart Contact Manager
 Technologies Used : Java,Tailwind CSS,Thymleaf,JPA
 
 For Page Content : Flowbite Url: https://flowbite.com/
+This application will Logged in via: http://192.168.1.34:8081/login
+CAPTCHA (Completely Automated Public Turing test to tell Computers and Humans Apart)
 
+Google captch: site key: 6LfSIjUqAAAAACbsITcYIv-Pul16JYz8ase5WF0S
+Secret Key: 6LfSIjUqAAAAAL6ofgnwokSBDY_YGnaOw2fvwJH7
 
 
 # FEATURES ARE USED AS FOLLOWS

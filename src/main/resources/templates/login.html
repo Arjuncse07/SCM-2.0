@@ -1,34 +1,39 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+
 </head>
 
 <body>
-<div class="login-container">
 
-    <!--   HOLD THE LOGO PNG
-    <div class="logo-container">
-        <img th:src="@{/images/logo.png}" alt="Logo">
-    </div>
-    -->
+<script src="https://www.google.com/recaptcha/api.js"></script> <!-- Google reCAPTCHA v2 -->
+
+
+<div class="login-container">
     <p th:text="${message}" style="color: green;"></p>
+    <p th:text="${error}" style="color: red;"></p>
+
     <h2>Login</h2>
-    <form action="/login" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+
+    <form th:action="@{/do-login}" method="POST">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required>
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
 
+        <div class="g-recaptcha" data-sitekey="6LfSIjUqAAAAACbsITcYIv-Pul16JYz8ase5WF0S"></div>
+
         <button type="submit">Login</button>
     </form>
+
     <div class="login-footer">
         <p><a th:href="@{/forgotPassword}">Forgot your password?</a></p>
-        <p><a data-th-href="@{/register}">SignUp/Register for an account</a></p>
+        <p><a th:href="@{/register}">SignUp/Register for an account</a></p>
     </div>
 </div>
 </body>
