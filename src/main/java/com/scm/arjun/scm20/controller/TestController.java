@@ -27,7 +27,6 @@ public class TestController {
 
     @GetMapping("/test/data")
     public List<String> getData() {
-
         return Arrays.asList("test1", "test2", "test3", "test4");
     }
 
