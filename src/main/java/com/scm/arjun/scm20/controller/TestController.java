@@ -97,6 +97,7 @@ public class TestController {
 
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
              ZipOutputStream zos = new ZipOutputStream(bos)) {
+
             zos.putNextEntry(new ZipEntry(filePath.getFileName().toString()));
             Files.copy(filePath, zos); //write the file content to zip
             zos.closeEntry();
@@ -104,6 +105,13 @@ public class TestController {
             return bos.toByteArray();
         }
     }
+
+    /* Task: WE have 3 List need to set the data from the List
+    * 1.List contains all HomeCategoryData [homeCategoryId, homeCatName, homeCatServiceName]
+    * 2.List contains all HomeCategoryService [homeCatServiceName, homeCatServiceId,]
+    *
+    *
+    *  */
 
 
 }

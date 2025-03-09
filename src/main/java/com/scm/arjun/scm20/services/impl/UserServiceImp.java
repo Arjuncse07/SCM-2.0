@@ -2,12 +2,12 @@ package com.scm.arjun.scm20.services.impl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+
 
 import com.scm.arjun.scm20.entities.PasswordResetToken;
 import com.scm.arjun.scm20.exceptions.DuplicateUserException;
 import com.scm.arjun.scm20.repositories.PasswordResetTokenRepository;
-import jdk.swing.interop.SwingInterOpUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

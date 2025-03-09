@@ -29,6 +29,12 @@ public class WebConfig implements WebMvcConfigurer {
                 .setCachePeriod(3600)
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver());
+
+        resourceHandlerRegistry.addResourceHandler("/js/**")
+                .addResourceLocations("classpath:/static/js")
+                .setCachePeriod(3600)
+                .resourceChain(true)
+                .addResolver(new PathResourceResolver());
     }
 
 

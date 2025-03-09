@@ -1,22 +1,156 @@
 <!DOCTYPE html>
-<html lang="en"
-th:replace = "~{base :: parent( ~{::#content}, ~{::title} )}"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Services Page Title</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- ✅ Correct way to reference JavaScript in Thymeleaf -->
+    <!--script type="text/javascript" th:src="@{/js/homeCategory.js}" defer></script -->
+
+    <!-- Thymleaf JSON object into Javascript-->
+    <script th:inline="javascript">
+        var homeServiceObject = /*[[${serviceListObject != null ? serviceListObject : '[]' }]]*/ [];
+    </script>
+
+
+
+        <style>
+    /* Basic styling for checkboxes */
+    .dynamicCheckbox {
+        width: 20px; /* Make checkboxes slightly bigger */
+        height: 20px;
+        cursor: pointer; /* Show pointer cursor on hover */
+        accent-color: #007bff; /* Change checkbox color (modern browsers) */
+    }
+
+    /* Style checked checkboxes */
+    .dynamicCheckbox:checked {
+        background-color: #007bff; /* Blue background */
+        border: 2px solid #0056b3;
+    }
+
+    /* Style when hovering over checkbox */
+    .dynamicCheckbox:hover {
+        transform: scale(1.1); /* Slightly enlarge checkbox on hover */
+    }
+
+    /* Label styling */
+    label {
+        font-size: 18px;
+        margin-left: 8px;
+        cursor: pointer;
+        color: #333;
+    }
+
+    /* Checkbox container */
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    ul li {
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+
+
+
+    <!-- Write JavaScript directly inside the script tag -->
+    <script th:inline="javascript">
+
+        $(document).ready(function() {
+   // Attach change event to all checkboxes with class 'dynamicCheckbox'
+   $(".dynamicCheckbox").change(function() {
+       var checkboxId = $(this).attr("id"); // Get the checkbox ID dynamically
+       alert("checkBoxId ::::: " + checkBoxId);
+       if ($(this).is(":checked")) {
+           console.log("Checkbox " + checkboxId + " is checked");
+           getHomeCategoryBasedOnId(checkboxId);
+       } else {
+           console.log("Checkbox " + checkboxId + " is unchecked");
+           removeCheckboxAction(checkboxId);
+       }
+   });
+});
+
+function getHomeCategoryBasedOnId(homeId) {
+   debugger;
+   alert("Value is logged" + homeId);
+   //var selectedHome = homeServiceObject;
+   //console.log("selectedHome ::::::::::: "+selectedHome);
+   var categoryContainer = $("#categoryList_" + homeId);
+   var object = homeServiceObject;
+   alert("Object :::::" + object);
+   // Find the selected home object
+   var selectedHome = homeServiceObject.find(home => home.homeId === homeId);
+   if (selectedHome && selectedHome.homeCategoriesList.length > 0) {
+       $.each(selectedHome.homeCategoriesList, function(index, category) {
+                   categoryContainer.append(
+                       `<p>${category.homeCategoryName} - ₹${category.homeCategoryPrice}</p>`
+                   );
+                   `
+       });
+   } else {
+       categoryContainer.empty(); //Ensure the div is cleared before appending text
+       categoryContainer.append("<p>No categories available</p>");
+   }
+}
+
+function removeHomeCategoryBasedOnId(homeId) {
+   // Your logic for when checkbox is unchecked
+   console.log('Removing categories for ' + homeId);
+   $("#categoryList_" +homeId).empty(); //clear the container
+}
+
+        //function removeHomeCategoryBasedOnId(e){console.log("Removing categories for "+e),$("#categoryList_"+e).empty()}
+
+    </script>
+
+
+
+
+
+
+
 </head>
 
 
 <body>
-    <section id="content">
+    <section >
 
             <h1>Welcome to services page</h1>
-            <h2>Services offered by SCM</h2>
 
+        <h2>Services offered by SCM</h2>
+
+
+
+        <!-- CheckBox on Homes -->
+        <ul>
+            <li>
+                <label for="H001"></label><input type="checkbox" id="H001" class="dynamicCheckbox" name="sweetHome" onchange="getHomeCategoryBasedOnId(this.id)" />
+                <label> Sweet Home </label>
+                <!--div id="categoryList_H001"></div-->  <!-- ✅ Category Display Area -->
+            </li>
+
+            <li>
+                <label for="H002"></label><input type="checkbox" id="H002" class="dynamicCheckbox" name="dreamVilla" onchange="getHomeCategoryBasedOnId(this.id)"/>
+                <label> Dream Home </label>
+                <!--div id="categoryList_H002"></div-->  <!-- ✅ Category Display Area -->
+            </li>
+
+
+            <!-- ✅ This div will dynamically display categories -->
+            <div th:id="'categoryList_' + ${home.homeId}"></div>
+
+        </ul>
     </section>
-
 
     <div>
         

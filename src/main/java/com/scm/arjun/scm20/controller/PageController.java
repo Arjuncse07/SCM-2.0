@@ -1,10 +1,13 @@
 package com.scm.arjun.scm20.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scm.arjun.scm20.entities.User;
 import com.scm.arjun.scm20.exceptions.DuplicateUserException;
 import com.scm.arjun.scm20.forms.LoginForm;
 import com.scm.arjun.scm20.repositories.UserRepo;
 import com.scm.arjun.scm20.services.CaptchService;
+import com.scm.arjun.scm20.services.ServicesPageService;
 import com.scm.arjun.scm20.services.UserServices;
 import com.scm.arjun.scm20.utils.PasswordUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,6 +40,14 @@ public class PageController {
     @Autowired
     private CaptchService captchService;
 
+    @Autowired
+    private ServicesPageService servicesPageService;
+
+    private final ObjectMapper objectMapper;
+
+    public PageController(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @GetMapping("/login")
     public String login()
@@ -114,8 +125,18 @@ public class PageController {
     }
 
     @RequestMapping("/services")
-    public String services(){  
-        System.out.println("Under Services Page");
+    public String services(Model model) {
+        //System.out.println("Under Services Page");
+        //System.out.println("List of Homes:::" + servicesPageService.listOfHomes());
+        try {
+            //String jsonHomeObjStr = objectMapper.writeValueAsString(servicesPageService.listOfHomes()); //JSON to string
+            System.out.println(" jsonHomeObjStr:::" +servicesPageService.listOfHomes());
+            model.addAttribute("serviceListObject", servicesPageService.listOfHomes());
+        } catch (Exception e) {
+            model.addAttribute("serviceListJson", "[]");
+            throw new RuntimeException(e);
+        }
+
         return "services";
     }
 
